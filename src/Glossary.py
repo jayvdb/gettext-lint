@@ -19,7 +19,7 @@ class Glossary:
             key = node.findtext('original/')
             values = node.findall('translation/term/')
             try:
-                a = self.dict[key]
+                self.dict[key]
             except KeyError:
                 self.dict[key] = []
             for value in values:

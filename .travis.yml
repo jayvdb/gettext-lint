@@ -1,0 +1,28 @@
+language: python
+python:
+  - 2.7
+  - 3.5
+
+addons:
+  apt:
+    packages:
+      - cvs
+      - rpm
+
+before_script:
+  - ./autogen.sh
+  - ./configure
+  - make
+  - pip install pyflakes
+  - echo '' | cvs -d:pserver:anonymous@pychecker.cvs.sourceforge.net:/cvsroot/pychecker login
+  - cvs -z3 -d:pserver:anonymous@pychecker.cvs.sourceforge.net:/cvsroot/pychecker co -P pychecker
+  - cd pychecker
+  - python setup.py install
+
+script:
+  - pyflakes .
+  - make
+  - sudo make install
+  - make rpm
+  - make distcheck
+  - make -C src pychecker
